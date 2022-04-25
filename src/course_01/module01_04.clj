@@ -1,4 +1,4 @@
-(ns course-01.ex01-04)
+(ns course-01.module01-04)
 
 ; CLOJURE: INTRODUCTION TO FUNCTIONAL PROGRAMMING
 
