@@ -132,17 +132,3 @@
      (map filtro1)
      (map filtro2)
      println)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
