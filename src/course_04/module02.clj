@@ -51,3 +51,6 @@
   (to-ms [this] (to-ms (.getTime this))))
 
 (to-ms (java.util.GregorianCalendar.))
+
+(defn agora []
+  (to-ms (java.util.Date.)))
