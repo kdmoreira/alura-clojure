@@ -1,6 +1,8 @@
 (ns alura-clojure.logic-test
+  (:use clojure.pprint)
   (:require [clojure.test :refer :all]
-            [course-06.module01-03 :refer :all]))
+            [course-06.module01-03 :refer :all]
+            [course-03.hospital.model :as h.model]))
 
 (deftest cabe-na-fila?-test
   
@@ -30,9 +32,21 @@
 
 (deftest chega-em-test
   
-  (let [hospital-cheio {:espera [1, 35, 42, 64, 21]}]
+  ;(let [hospital-cheio {:espera [1, 35, 42, 64, 21]}]
     
     (testing "Aceita pessoas enquanto cabem pessoas na fila"
+      
+      (testing "aceita pessoas se cabe"
+        (let [hospital-original {:espera [5], :raio-x []}]
+          (is (= {:espera []
+                  :raio-x [5]}
+                 (transfere hospital-original :espera :raio-x))))
+
+        (let [hospital-original {:espera (conj h.model/fila-vazia 51, 5), :raio-x (conj h.model/fila-vazia 13)}]
+          (pprint (transfere hospital-original :espera :raio-x))
+          (is (= {:espera [5]
+                  :raio-x [13, 51]}
+                 (transfere hospital-original :espera :raio-x)))))
 
     ; previous implementations
     ;(is (= {:espera [1 2 3 4 5]}
@@ -42,16 +56,16 @@
     ;(is (= {:espera [1 2 5]}
     ;       (chega-em {:espera [1 2]}, :espera, 5)))
 
-      (is (= {:hospital hospital-cheio, :resultado :sucesso}
-             (chega-em {:espera [1, 35, 42, 64]}, :espera, 21)))
+    ;  (is (= {:hospital hospital-cheio, :resultado :sucesso}
+    ;         (chega-em {:espera [1, 35, 42, 64]}, :espera, 21)))
 
-      (is (= {:hospital {:espera [1, 35, 42]}, :resultado :sucesso}
-             (chega-em {:espera [1, 35]}, :espera, 42))))
+    ;  (is (= {:hospital {:espera [1, 35, 42]}, :resultado :sucesso}
+    ;         (chega-em {:espera [1, 35]}, :espera, 42))))
     
-    (testing "Não aceita pessoas quando a fila está cheia"
+    ;(testing "Não aceita pessoas quando a fila está cheia"
       
-      (is (= {:hospital hospital-cheio, :resultado :impossivel-adicionar-na-fila}
-             (chega-em hospital-cheio, :espera 76))))
+    ;  (is (= {:hospital hospital-cheio, :resultado :impossivel-adicionar-na-fila}
+    ;         (chega-em hospital-cheio, :espera 76))))
     
     ; don't use generic exceptions or exception messages
     ;(is (thrown? clojure.lang.ExceptionInfo

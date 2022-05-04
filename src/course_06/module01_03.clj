@@ -33,8 +33,33 @@
     (update hospital departamento conj pessoa)))
 
 ; a better way
+;(defn chega-em
+;  [hospital departamento pessoa]
+;  (if-let [novo-hospital (tenta-colocar-na-fila hospital departamento pessoa)]
+;    {:hospital novo-hospital, :resultado :sucesso}
+;    {:hospital hospital, :resultado :impossivel-adicionar-na-fila}))
+
+; using functions from previous courses
+
 (defn chega-em
   [hospital departamento pessoa]
-  (if-let [novo-hospital (tenta-colocar-na-fila hospital departamento pessoa)]
-    {:hospital novo-hospital, :resultado :sucesso}
-    {:hospital hospital, :resultado :impossivel-adicionar-na-fila}))
+  (if (cabe-na-fila? hospital departamento)
+    (update hospital departamento conj pessoa)
+    (throw (ex-info "Não cabe ninguém neste departamento" {:paciente pessoa}))))
+
+(defn atende
+  [hospital departamento]
+  (update hospital departamento pop))
+
+(defn proxima
+  "Retorna a próxima pessoa"
+  [hospital departamento]
+  (peek (get hospital departamento)))
+
+(defn transfere
+  "Transfere para da fila de um departamento para a de outro"
+  [hospital de para]
+  (let [pessoa (proxima hospital de)]
+    (-> hospital
+        (atende ,,, de)
+        (chega-em ,,, para pessoa))))
