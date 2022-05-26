@@ -6,6 +6,7 @@
   :dependencies [
                  [org.clojure/clojure "1.10.3"]
                  [prismatic/schema "1.1.12"]
+                 [org.clojure/test.check "0.10.0"]
                  ]
   :main ^:skip-aot alura-clojure.core
   :target-path "target/%s"
